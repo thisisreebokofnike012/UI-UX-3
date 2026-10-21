@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayEase — Мобильное приложение (iOS Mockup)</title>
+  
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            app: {
+              bg: '#0a101d',
+              card: '#0f182c',
+              border: '#1c2842',
+              cardHover: '#15223d',
+            }
+          },
+          boxShadow: {
+            'phone-glow': '0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 50px rgba(14, 165, 233, 0.15)',
+            'success-glow': '0 0 30px rgba(16, 185, 129, 0.35)',
+            'card-shadow': '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom dark scrollbar inside phone */
+    .phone-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .phone-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .phone-scroll::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    .phone-scroll::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Ambient pulse */
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+    .ambient-glow {
+      animation: subtlePulse 8s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-[#070b13] text-slate-100 font-sans min-h-screen flex items-center justify-center p-4 sm:p-8 antialiased selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- Background Ambient Glow -->
+  <div class="fixed inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
+    <div class="w-[750px] h-[750px] bg-gradient-to-tr from-brand-600/10 via-sky-500/10 to-indigo-600/10 rounded-full blur-[120px] ambient-glow"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- IPHONE 16 PRO FRAME (CENTERED HERO) -->
+  <!-- ========================================================================= -->
+  <div class="relative z-10 w-full max-w-[390px] h-[830px] bg-[#1a202c] rounded-[54px] p-[10px] shadow-phone-glow border-[4px] border-[#2d3748] ring-1 ring-white/10 select-none transition-all duration-300">
+    
+    <!-- iPhone Hardware Buttons -->
+    <!-- Action Button (Left Top) -->
+    <div class="absolute -left-[6px] top-28 w-[3.5px] h-7 bg-[#3a4456] rounded-l-sm shadow-sm"></div>
+    <!-- Volume Up (Left Middle) -->
+    <div class="absolute -left-[6px] top-40 w-[3.5px] h-12 bg-[#3a4456] rounded-l-sm shadow-sm"></div>
+    <!-- Volume Down (Left Bottom) -->
+    <div class="absolute -left-[6px] top-56 w-[3.5px] h-12 bg-[#3a4456] rounded-l-sm shadow-sm"></div>
+    <!-- Power Button (Right) -->
+    <div class="absolute -right-[6px] top-44 w-[3.5px] h-16 bg-[#3a4456] rounded-r-sm shadow-sm"></div>
+
+    <!-- Inner Bezel -->
+    <div class="w-full h-full bg-[#0a101d] rounded-[44px] overflow-hidden flex flex-col relative border border-[#1a253b]">
+      
+      <!-- ===================================================================== -->
+      <!-- IOS STATUS BAR & DYNAMIC ISLAND -->
+      <!-- ===================================================================== -->
+      <div class="h-11 px-7 flex items-center justify-between z-40 bg-[#0a101d]/90 backdrop-blur-md shrink-0">
+        <!-- Time -->
+        <span class="text-[13px] font-semibold text-white font-mono tracking-tight">9:41</span>
+        
+        <!-- Dynamic Island -->
+        <div id="dynamic-island" class="w-28 h-[24px] bg-black rounded-full flex items-center justify-between px-2.5 border border-white/10 shadow-sm transition-all duration-300">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="island-text" class="text-[10px] text-slate-300 font-semibold font-mono tracking-wide">StayEase</span>
+          </div>
+          <!-- Camera lens reflection -->
+          <div class="w-2.5 h-2.5 rounded-full bg-[#111] border border-slate-800 flex items-center justify-center">
+            <div class="w-1 h-1 rounded-full bg-[#1e293b]"></div>
+          </div>
+        </div>
+
+        <!-- Icons: Cellular, Wifi, Battery -->
+        <div class="flex items-center gap-1.5 text-white">
+          <i data-lucide="signal" class="w-3.5 h-3.5"></i>
+          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+          <div class="w-5 h-2.5 rounded-[4px] border border-white/80 p-0.5 flex items-center">
+            <div class="w-full h-full bg-white rounded-[1.5px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- MAIN VIEWPORT (SWITCHABLE SCREENS) -->
+      <!-- ===================================================================== -->
+      <div id="phone-screen-content" class="flex-1 overflow-y-auto phone-scroll px-5 pt-3 pb-24 bg-gradient-to-b from-[#0a101d] via-[#0d1424] to-[#0a101d]">
+        <!-- Content injected by JavaScript -->
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- BOTTOM TAB BAR (5 ICONS) -->
+      <!-- ===================================================================== -->
+      <div class="absolute bottom-0 left-0 right-0 h-[68px] bg-[#090f1c]/95 backdrop-blur-xl border-t border-[#19243b] px-3 flex items-center justify-around z-40">
+        
+        <!-- Tab 1: Поиск -->
+        <button data-tab="search" class="nav-tab-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors">
+          <i data-lucide="search" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium tracking-tight">Поиск</span>
+        </button>
+
+        <!-- Tab 2: Избранное -->
+        <button data-tab="favorites" class="nav-tab-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors">
+          <i data-lucide="heart" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium tracking-tight">Избранное</span>
+        </button>
+
+        <!-- Tab 3: Поездки (Active by default on voucher) -->
+        <button data-tab="trips" class="nav-tab-btn active flex flex-col items-center gap-1 text-brand-400 transition-colors relative">
+          <i data-lucide="briefcase" class="w-5 h-5"></i>
+          <span class="text-[10px] font-semibold tracking-tight">Поездки</span>
+          <!-- Badge -->
+          <span id="trips-indicator" class="absolute -top-0.5 right-2 w-2 h-2 rounded-full bg-brand-400"></span>
+        </button>
+
+        <!-- Tab 4: Чат -->
+        <button data-tab="inbox" class="nav-tab-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium tracking-tight">Чат</span>
+        </button>
+
+        <!-- Tab 5: Профиль -->
+        <button data-tab="profile" class="nav-tab-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors">
+          <i data-lucide="user" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium tracking-tight">Профиль</span>
+        </button>
+
+      </div>
+
+      <!-- Home Indicator Pill -->
+      <div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-36 h-1 bg-white/40 rounded-full z-50 pointer-events-none"></div>
+
+      <!-- In-app Floating Toast / Notification -->
+      <div id="phone-toast" class="absolute top-14 left-4 right-4 bg-[#111c33]/95 border border-brand-500/40 rounded-2xl p-3 shadow-xl backdrop-blur-md flex items-center gap-3 transform -translate-y-24 opacity-0 transition-all duration-300 z-50 pointer-events-none">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+          <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h4 id="toast-title" class="text-xs font-bold text-white">Apple Wallet</h4>
+          <p id="toast-desc" class="text-[11px] text-slate-300 truncate">Ваучер успешно добавлен в кошелек</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APPLICATION CODE -->
+  <!-- ========================================================================= -->
+  <script>
+    // State management
+    let activeTab = 'trips'; // 'voucher', 'trips', 'search', 'favorites', 'inbox', 'profile'
+    let isVoucherSavedInWallet = false;
+
+    const screenContainer = document.getElementById('phone-screen-content');
+    const tabButtons = document.querySelectorAll('.nav-tab-btn');
+    const dynamicIsland = document.getElementById('dynamic-island');
+    const islandText = document.getElementById('island-text');
+    const toast = document.getElementById('phone-toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+
+    // Trigger toast notification inside phone
+    function showToast(title, desc) {
+      toastTitle.textContent = title;
+      toastDesc.textContent = desc;
+      toast.classList.remove('-translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      // Expand dynamic island briefly
+      dynamicIsland.classList.add('w-36', 'border-brand-500/60');
+      islandText.textContent = 'Saved ✓';
+
+      setTimeout(() => {
+        toast.classList.add('-translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        dynamicIsland.classList.remove('w-36', 'border-brand-500/60');
+        islandText.textContent = 'StayEase';
+      }, 3000);
+    }
+
+    // =========================================================================
+    // SCREEN 1: VOUCHER CONFIRMATION (MATCHING TARGET DESIGN)
+    // =========================================================================
+    function renderVoucherScreen() {
+      screenContainer.innerHTML = `
+        <div class="flex flex-col items-center text-center pt-2">
+          
+          <!-- Success Status Icon -->
+          <div class="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shadow-success-glow mb-3">
+            <i data-lucide="check" class="w-8 h-8 stroke-[2.5]"></i>
+          </div>
+
+          <!-- Main Title with Gradient Accent -->
+          <h1 class="text-[20px] font-extrabold text-white tracking-tight leading-snug">
+            Бронирование подтверждено!
+          </h1>
+          <p class="text-xs text-slate-400 mt-1 mb-5">
+            Электронный ваучер готов к заселению
+          </p>
+
+          <!-- =============================================================== -->
+          <!-- VOUCHER CARD -->
+          <!-- =============================================================== -->
+          <div class="w-full bg-[#0f182c] border border-[#1d2b48] rounded-[22px] p-4 text-left shadow-card-shadow mb-5 relative overflow-hidden">
+            
+            <!-- Top Row: Voucher # and Paid Badge -->
+            <div class="flex items-center justify-between pb-3 border-b border-[#1c2842] mb-3">
+              <div>
+                <span class="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold">Номер ваучера</span>
+                <span class="text-xs font-mono font-bold text-brand-400 tracking-wide">#SE-84920</span>
+              </div>
+              <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Оплачено
+              </span>
+            </div>
+
+            <!-- Hotel Info -->
+            <div class="mb-3">
+              <h3 class="text-[13px] font-extrabold text-white leading-tight">
+                The Ritz-Carlton, Almaty
+              </h3>
+              <p class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3 h-3 text-brand-400 shrink-0"></i>
+                <span>Алматы, пр. Аль-Фараби, 77/7</span>
+              </p>
+            </div>
+
+            <!-- Check-in / Check-out Dates Grid -->
+            <div class="grid grid-cols-2 gap-2 bg-[#0a101d] p-2.5 rounded-xl border border-[#19243d] mb-3 text-[11px]">
+              <div>
+                <span class="text-slate-400 block text-[10px]">Заезд (Чекин)</span>
+                <strong class="text-slate-100 font-semibold">24 окт, с 14:00</strong>
+              </div>
+              <div class="border-l border-[#19243d] pl-2.5">
+                <span class="text-slate-400 block text-[10px]">Выезд (Чекаут)</span>
+                <strong class="text-slate-100 font-semibold">28 окт, до 12:00</strong>
+              </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="bg-[#0a101d]/60 p-3 rounded-xl border border-[#19243d] flex items-center gap-3">
+              
+              <!-- Crisp Vector QR-Code Mockup -->
+              <div class="w-[74px] h-[74px] bg-white rounded-lg p-1.5 shrink-0 flex items-center justify-center shadow-md">
+                <svg viewBox="0 0 100 100" class="w-full h-full" shape-rendering="crispEdges">
+                  <!-- Finder 1 Top Left -->
+                  <rect x="0" y="0" width="30" height="30" fill="black"/>
+                  <rect x="5" y="5" width="20" height="20" fill="white"/>
+                  <rect x="10" y="10" width="10" height="10" fill="black"/>
+                  <!-- Finder 2 Top Right -->
+                  <rect x="70" y="0" width="30" height="30" fill="black"/>
+                  <rect x="75" y="5" width="20" height="20" fill="white"/>
+                  <rect x="80" y="10" width="10" height="10" fill="black"/>
+                  <!-- Finder 3 Bottom Left -->
+                  <rect x="0" y="70" width="30" height="30" fill="black"/>
+                  <rect x="5" y="75" width="20" height="20" fill="white"/>
+                  <rect x="10" y="80" width="10" height="10" fill="black"/>
+                  <!-- Data Pattern Elements -->
+                  <rect x="36" y="6" width="6" height="6" fill="black"/>
+                  <rect x="46" y="6" width="6" height="6" fill="black"/>
+                  <rect x="56" y="6" width="6" height="6" fill="black"/>
+                  <rect x="36" y="18" width="6" height="6" fill="black"/>
+                  <rect x="50" y="18" width="8" height="6" fill="black"/>
+                  <rect x="6" y="36" width="6" height="6" fill="black"/>
+                  <rect x="18" y="36" width="6" height="6" fill="black"/>
+                  <rect x="28" y="36" width="8" height="8" fill="black"/>
+                  <rect x="40" y="36" width="6" height="6" fill="black"/>
+                  <rect x="54" y="36" width="8" height="8" fill="black"/>
+                  <rect x="70" y="36" width="6" height="6" fill="black"/>
+                  <rect x="84" y="36" width="8" height="6" fill="black"/>
+                  <rect x="36" y="50" width="6" height="12" fill="black"/>
+                  <rect x="46" y="46" width="10" height="6" fill="black"/>
+                  <rect x="60" y="52" width="6" height="8" fill="black"/>
+                  <rect x="74" y="48" width="6" height="6" fill="black"/>
+                  <rect x="86" y="50" width="8" height="8" fill="black"/>
+                  <rect x="36" y="72" width="8" height="8" fill="black"/>
+                  <rect x="50" y="70" width="6" height="6" fill="black"/>
+                  <rect x="62" y="74" width="8" height="8" fill="black"/>
+                  <rect x="76" y="70" width="6" height="8" fill="black"/>
+                  <rect x="88" y="72" width="6" height="16" fill="black"/>
+                  <rect x="40" y="86" width="6" height="8" fill="black"/>
+                  <rect x="52" y="84" width="8" height="6" fill="black"/>
+                  <rect x="68" y="86" width="8" height="8" fill="black"/>
+                </svg>
+              </div>
+
+              <!-- QR Instruction -->
+              <p class="text-[10px] text-slate-400 leading-relaxed font-normal">
+                Покажите этот QR-код на стойке ресепшн для быстрого заселения без очередей.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- ACTION BUTTONS -->
+          <!-- =============================================================== -->
+          <div class="w-full space-y-2.5">
+            
+            <!-- Secondary: Add to Apple Wallet -->
+            <button id="btn-wallet" class="w-full py-3 px-4 rounded-[16px] bg-[#142038] hover:bg-[#1a2b4c] border border-[#243557] text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+              <i data-lucide="${isVoucherSavedInWallet ? 'check' : 'smartphone'}" class="w-4 h-4 ${isVoucherSavedInWallet ? 'text-emerald-400' : 'text-brand-400'}"></i>
+              <span id="btn-wallet-text">${isVoucherSavedInWallet ? 'Добавлено в Apple Wallet ✓' : 'Добавить в Apple Wallet'}</span>
+            </button>
+
+            <!-- Primary: Finish and Go to Trips -->
+            <button id="btn-to-trips" class="w-full py-3.5 px-4 rounded-[16px] bg-gradient-to-r from-brand-600 via-brand-500 to-sky-400 hover:from-brand-500 hover:to-sky-300 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 transition-all active:scale-[0.98]">
+              <span>Завершить и перейти к поездкам</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+      // Button listeners
+      document.getElementById('btn-wallet').addEventListener('click', () => {
+        isVoucherSavedInWallet = true;
+        document.getElementById('btn-wallet-text').textContent = 'Добавлено в Apple Wallet ✓';
+        showToast('Apple Wallet', 'Ваучер #SE-84920 добавлен в кошелек');
+        lucide.createIcons();
+      });
+
+      document.getElementById('btn-to-trips').addEventListener('click', () => {
+        switchTab('trips');
+      });
+
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // SCREEN 2: TRIPS LIST (ПОЕЗДКИ)
+    // =========================================================================
+    function renderTripsScreen() {
+      screenContainer.innerHTML = `
+        <div class="space-y-4 pt-1">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-extrabold text-white">Мои поездки</h2>
+            <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-brand-500/15 text-brand-400 font-mono font-semibold">1 активная</span>
+          </div>
+
+          <!-- Active Trip Card -->
+          <div class="bg-[#0f182c] border border-brand-500/40 rounded-[20px] p-3.5 space-y-3 shadow-card-shadow relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Заезд через 3 дня
+              </span>
+              <span class="text-xs font-mono font-bold text-brand-400">#SE-84920</span>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-extrabold text-white leading-tight">The Ritz-Carlton, Almaty</h3>
+              <p class="text-[11px] text-slate-400 mt-0.5">Алматы • 24 окт - 28 окт (4 ночи)</p>
+            </div>
+
+            <div class="p-2.5 bg-[#0a101d] rounded-xl border border-[#19243d] flex items-center justify-between text-xs">
+              <span class="text-slate-400">Статус:</span>
+              <span class="text-emerald-400 font-semibold">Подтверждено и оплачено</span>
+            </div>
+
+            <button id="btn-reopen-voucher" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm">
+              <i data-lucide="ticket" class="w-4 h-4"></i>
+              <span>Показать ваучер и QR-код</span>
+            </button>
+          </div>
+
+          <!-- Past Trips Archive -->
+          <div class="pt-2">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Прошлые поездки</h4>
+            
+            <div class="bg-[#0f182c]/60 border border-[#1c2842] rounded-2xl p-3 flex items-center justify-between opacity-70">
+              <div>
+                <h5 class="text-xs font-bold text-white">InterContinental Almaty</h5>
+                <span class="text-[10px] text-slate-400">Алматы, ул. Желтоксан, 181 • 3 ночи</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-surface-800 text-slate-400">Завершено</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btn-reopen-voucher').addEventListener('click', () => {
+        renderVoucherScreen();
+      });
+
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // SCREEN 3: SEARCH (ПОИСК)
+    // =========================================================================
+    function renderSearchScreen() {
+      screenContainer.innerHTML = `
+        <div class="space-y-4 pt-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Куда поедем?</span>
+              <h2 class="text-lg font-extrabold text-white">Поиск отелей</h2>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-[#15223d] flex items-center justify-center text-slate-300">
+              <i data-lucide="bell" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <!-- Search Widget Card -->
+          <div class="bg-[#0f182c] border border-[#1d2b48] rounded-[22px] p-3.5 space-y-2.5 shadow-card-shadow">
+            
+            <!-- Destination Input -->
+            <div class="p-2.5 rounded-xl bg-[#0a101d] border border-[#1a253b] flex items-center gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <div>
+                <span class="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold">Город или отель</span>
+                <span class="text-xs font-bold text-white">Алматы, Медеу / Шымбулак</span>
+              </div>
+            </div>
+
+            <!-- Dates Input -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="p-2 rounded-xl bg-[#0a101d] border border-[#1a253b] flex items-center gap-2">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-400 shrink-0"></i>
+                <div>
+                  <span class="text-[9px] text-slate-400 block">Заезд</span>
+                  <span class="text-[11px] font-bold text-white">24 окт, чт</span>
+                </div>
+              </div>
+              <div class="p-2 rounded-xl bg-[#0a101d] border border-[#1a253b] flex items-center gap-2">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-400 shrink-0"></i>
+                <div>
+                  <span class="text-[9px] text-slate-400 block">Выезд</span>
+                  <span class="text-[11px] font-bold text-white">28 окт, пн</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Guests -->
+            <div class="p-2.5 rounded-xl bg-[#0a101d] border border-[#1a253b] flex items-center gap-2.5">
+              <i data-lucide="users" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <div>
+                <span class="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold">Гости</span>
+                <span class="text-xs font-bold text-white">2 взрослых • 1 номер</span>
+              </div>
+            </div>
+
+            <!-- Find Button -->
+            <button id="btn-find-hotels" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20">
+              <i data-lucide="search" class="w-4 h-4"></i>
+              <span>Найти 142 отеля</span>
+            </button>
+          </div>
+
+          <!-- Featured Hotel Promo -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-white">Популярное предложение</span>
+              <span class="text-[10px] text-brand-400 font-semibold cursor-pointer">Все ➔</span>
+            </div>
+
+            <div class="bg-[#0f182c] border border-[#1d2b48] rounded-2xl p-3 flex items-center gap-3 cursor-pointer hover:border-brand-500/60 transition-colors" onclick="renderVoucherScreen()">
+              <div class="w-12 h-12 rounded-xl bg-brand-900/60 border border-brand-500/30 flex items-center justify-center text-brand-300 font-bold text-[10px] shrink-0">
+                5★ SPA
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[10px] text-amber-400 font-bold">★ 4.9 (520 отзывов)</div>
+                <h4 class="text-xs font-bold text-white truncate">The Ritz-Carlton, Almaty</h4>
+                <p class="text-[10px] text-slate-400">Алматы • пр. Аль-Фараби</p>
+              </div>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btn-find-hotels').addEventListener('click', () => {
+        showToast('Поиск отелей', 'Найдено 142 варианта в Алматы');
+      });
+
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // SCREEN 4: FAVORITES (ИЗБРАННОЕ)
+    // =========================================================================
+    function renderFavoritesScreen() {
+      screenContainer.innerHTML = `
+        <div class="space-y-3.5 pt-1">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-extrabold text-white">Избранное</h2>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-surface-800 text-slate-400">3 отеля</span>
+          </div>
+
+          <div class="bg-[#0f182c] border border-[#1d2b48] rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-white">Shymbulak Mountain Resort</h4>
+              <i data-lucide="heart" class="w-4 h-4 text-rose-500 fill-rose-500"></i>
+            </div>
+            <p class="text-[10px] text-slate-400">Алматы, урочище Медеу • Горный курорт</p>
+            <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 inline-block">Скидка 15% на эти даты</span>
+          </div>
+
+          <div class="bg-[#0f182c] border border-[#1d2b48] rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-white">Rixos Almaty Hotel</h4>
+              <i data-lucide="heart" class="w-4 h-4 text-rose-500 fill-rose-500"></i>
+            </div>
+            <p class="text-[10px] text-slate-400">Алматы, ул. Сейфуллина, 506 • 5★</p>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // SCREEN 5: INBOX (ЧАТ)
+    // =========================================================================
+    function renderInboxScreen() {
+      screenContainer.innerHTML = `
+        <div class="space-y-3 pt-1">
+          <h2 class="text-lg font-extrabold text-white mb-2">Сообщения</h2>
+
+          <div class="bg-[#0f182c] border border-brand-500/40 rounded-2xl p-3 flex items-center gap-3 cursor-pointer shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
+              RC
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold text-white">The Ritz-Carlton Almaty</h4>
+                <span class="text-[9px] text-slate-400">10:45</span>
+              </div>
+              <p class="text-[10px] text-slate-300 truncate">Здравствуйте, Елена! Ваш номер с видом на горы готов к заезду.</p>
+            </div>
+          </div>
+
+          <div class="bg-[#0f182c] border border-[#1d2b48] rounded-2xl p-3 flex items-center gap-3 cursor-pointer opacity-80">
+            <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
+              SC
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold text-white">Поддержка StayEase Care</h4>
+                <span class="text-[9px] text-slate-400">Вчера</span>
+              </div>
+              <p class="text-[10px] text-slate-400 truncate">Ваши мили за поездку начислены!</p>
+            </div>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // SCREEN 6: PROFILE (ПРОФИЛЬ)
+    // =========================================================================
+    function renderProfileScreen() {
+      screenContainer.innerHTML = `
+        <div class="space-y-4 pt-1">
+          <!-- User Info Header -->
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-600 to-sky-400 text-white font-bold text-sm flex items-center justify-center shadow-md">
+              ЕС
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Елена Смирнова</h3>
+              <span class="text-[10px] text-brand-400 font-mono">Platinum Traveler</span>
+            </div>
+          </div>
+
+          <!-- Miles Widget -->
+          <div class="bg-gradient-to-r from-[#142345] to-[#0f182c] border border-brand-500/30 rounded-2xl p-3.5 space-y-1">
+            <span class="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">Баланс StayMiles</span>
+            <div class="text-xl font-extrabold text-white font-mono">14 250 миль</div>
+            <p class="text-[10px] text-brand-300">Скидка до 15% на следующий отель</p>
+          </div>
+
+          <!-- Settings list -->
+          <div class="bg-[#0f182c] border border-[#1d2b48] rounded-2xl divide-y divide-[#1a253b] text-xs">
+            <div class="p-3 flex items-center justify-between text-slate-200">
+              <span>Паспортные данные</span>
+              <span class="text-[10px] text-emerald-400 font-semibold">Заполнено ✓</span>
+            </div>
+            <div class="p-3 flex items-center justify-between text-slate-200">
+              <span>Способы оплаты</span>
+              <span class="text-[10px] text-slate-400">МИР •••• 4210</span>
+            </div>
+            <div class="p-3 flex items-center justify-between text-slate-200">
+              <span>Вход по Face ID</span>
+              <span class="text-[10px] text-emerald-400 font-semibold">Активен</span>
+            </div>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // TAB SWITCHER CONTROLLER
+    // =========================================================================
+    function switchTab(tabId) {
+      activeTab = tabId;
+
+      // Update tab buttons appearance
+      tabButtons.forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('text-brand-400', 'font-semibold');
+          btn.classList.remove('text-slate-400');
+        } else {
+          btn.classList.remove('text-brand-400', 'font-semibold');
+          btn.classList.add('text-slate-400');
+        }
+      });
+
+      // Render corresponding screen
+      switch(tabId) {
+        case 'trips':
+          renderVoucherScreen(); // Shows confirmation voucher by default
+          break;
+        case 'search':
+          renderSearchScreen();
+          break;
+        case 'favorites':
+          renderFavoritesScreen();
+          break;
+        case 'inbox':
+          renderInboxScreen();
+          break;
+        case 'profile':
+          renderProfileScreen();
+          break;
+      }
+    }
+
+    // Register Tab Listeners
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+      });
+    });
+
+    // Initialize with Voucher screen
+    document.addEventListener('DOMContentLoaded', () => {
+      renderVoucherScreen();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
